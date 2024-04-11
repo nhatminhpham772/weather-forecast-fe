@@ -1,6 +1,6 @@
 <template>
     <div class="flex flex-col space-y-6 bg-white p-10 mt-10 rounded-xl ring-8 ring-white ring-opacity-40 mb-10">
-        <div class="flex justify-between items-center" v-for="(item, index) in dataForecast.future.slice(1, dataForecast.flag)" :key="index">
+        <div class="flex justify-between items-center animation-wipe-down" v-for="(item, index) in dataForecast.future.slice(1, dataForecast.flag)" :key="index">
             <span class="font-semibold text-lg w-1/4">{{ item.date }}</span>
             <div class="flex items-center justify-end w-1/4 pr-16">
                 <span class="font-semibold">{{ item.day.avghumidity }}%</span>
@@ -40,7 +40,7 @@ const showMore = async () => {
     if(dataForecast.flag < dataForecast.future.length)
         dataForecast.flag += 4
     else {
-        await dataForecast.futureForecast('Ha Noi')
+        await dataForecast.futureForecast(dataForecast.city)
         dataForecast.flag = dataForecast.future.length
     }
     window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' });
@@ -48,6 +48,19 @@ const showMore = async () => {
 }
 </script>
 
-<style lang="scss" scoped>
+<style lang="css" scoped>
+@keyframes wipeDown {
+  0% {
+    transform: translateY(-100%);
+    opacity: 0;
+  }
+  100% {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
 
+.animation-wipe-down {
+  animation: wipeDown 0.5s ease-out;
+}
 </style>

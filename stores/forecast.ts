@@ -8,6 +8,7 @@ import { DataObjectSchema } from "./structs/response_struct";
 export const useDataForecast = defineStore('forecast', () => {
     const storeToast = toastStore()
     const location = ref('')
+    const city = ref('ha noi')
     const localTime = ref('')
     const current = ref<Current>()
     const future = ref<Future[]>([])
@@ -64,7 +65,6 @@ export const useDataForecast = defineStore('forecast', () => {
 
             convertDateToString(date)
         }
-        console.log(futureDay.value)
         const { data } = await useFetch('/forecast/future/' + city + '/' + futureDay.value, {
             baseURL: useRuntimeConfig().public.baseURL,
             method: "GET",
@@ -88,6 +88,7 @@ export const useDataForecast = defineStore('forecast', () => {
 
     return {
         location,
+        city,
         localTime,
         current,
         future,

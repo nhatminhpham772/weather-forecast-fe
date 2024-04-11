@@ -8,14 +8,20 @@
             </div>
         </div>
     </div>
+    <AuthModal />
 </template>
 
 <script setup lang="ts">
 import { useDataForecast } from "@/stores/forecast"
+import { useAuthStore } from "@/stores/auth"
 
+const dataAuth = useAuthStore();
 const dataForecast = useDataForecast();
-await dataForecast.currentForecast('Ha Noi')
-await dataForecast.futureForecast('Ha Noi')
+
+if(dataAuth.userInfor?.city)
+    dataForecast.city = dataAuth.userInfor?.city
+await dataForecast.currentForecast(dataForecast.city)
+await dataForecast.futureForecast(dataForecast.city)
 </script>
 
 <style lang="scss" scoped>
