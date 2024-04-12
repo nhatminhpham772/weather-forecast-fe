@@ -47,6 +47,7 @@ export const FutureSchema = object({
     day: object({
         maxtemp_c: number(),
         mintemp_c: number(),
+        avgtemp_c: number(),
         maxwind_mph: number(),
         avghumidity: number(),
         condition: object({
