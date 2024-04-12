@@ -4,9 +4,9 @@ import { toastStore } from "./toast";
 import { CurrentForecastSchema, type Current, type Future } from "./structs/forecast_struct";
 import { DataObjectSchema } from "./structs/response_struct";
 
-
 export const useDataForecast = defineStore('forecast', () => {
     const storeToast = toastStore()
+    const dataAuth = useAuthStore()
     const location = ref('')
     const city = ref('ha noi')
     const localTime = ref('')
@@ -15,6 +15,7 @@ export const useDataForecast = defineStore('forecast', () => {
     const futureDay = ref('')
     var flag = ref(5)
     const search = ref('')
+    const authorization = "Bearer " + dataAuth.accessToken;
 
     async function currentForecast(city: string) {
         if(city === "") {
@@ -86,6 +87,38 @@ export const useDataForecast = defineStore('forecast', () => {
         }
     }
 
+    async function notifyForecast(cityip: string, isActive: boolean) {
+        const { data, error } = await useFetch('/forecast/notification/' + cityip + '/' + isActive, {
+            baseURL: useRuntimeConfig().public.baseURL,
+            method: "PATCH",
+            headers: {
+                Authorization: authorization,
+            },
+        });
+
+        if (data.value !== null) {
+            if(dataAuth.userInfor) {
+                dataAuth.userInfor.email_notification = isActive
+                console.log(isActive)
+                if(isActive)
+                    dataAuth.userInfor.city = cityip
+                localStorage.setItem("user_infor", JSON.stringify(dataAuth.userInfor))
+            }
+
+            dataAuth.getUserInfor()
+
+            if(dataAuth.userInfor?.city)
+                city.value = dataAuth.userInfor?.city
+            await currentForecast(city.value)
+            await futureForecast(city.value)
+        } else {
+            storeToast.add({
+                message: "Không tìm thấy thành phố này",
+                toastStatus: "error",
+            });
+        }
+    }
+
     return {
         location,
         city,
@@ -97,6 +130,7 @@ export const useDataForecast = defineStore('forecast', () => {
         search,
         currentForecast,
         futureForecast,
+        notifyForecast
     }
 })
 

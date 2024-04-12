@@ -9,6 +9,7 @@
         </div>
     </div>
     <AuthModal />
+    <ModalNotify />
 </template>
 
 <script setup lang="ts">
