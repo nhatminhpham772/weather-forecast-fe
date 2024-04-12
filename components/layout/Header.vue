@@ -16,12 +16,12 @@
                         <span class="sr-only">User</span>
                         <UserIcon class="h-6 w-6" aria-hidden="true" />
                     </button>
-                    <button v-if="dataAuth.accessToken !== ''" type="button" id="popup-notify-btn" class="inline-flex items-center justify-center rounded-md p-3 text-gray-700"
+                    <button :class="dataAuth.accessToken === '' ? 'hidden': ''" type="button" id="popup-notify-btn" class="inline-flex items-center justify-center rounded-md p-3 text-gray-700"
                         data-modal-target="popup-notify" data-modal-toggle="popup-notify">
                         <span class="sr-only">Notify</span>
                         <BellIcon class="h-6 w-6" aria-hidden="true" />
                     </button>
-                    <button v-if="dataAuth.accessToken !== ''" @click="dataAuth.logout" type="button" class="inline-flex items-center justify-center rounded-md p-3 text-gray-700">
+                    <button :class="dataAuth.accessToken === '' ? 'hidden': ''" @click="dataAuth.logout" type="button" class="inline-flex items-center justify-center rounded-md p-3 text-gray-700">
                         <span class="sr-only">Logout</span>
                         <ArrowRightEndOnRectangleIcon class="h-6 w-6" aria-hidden="true" />
                     </button>

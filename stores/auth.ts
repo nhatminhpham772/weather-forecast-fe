@@ -39,14 +39,7 @@ export const useAuthStore = defineStore("auth", () => {
       localStorage.setItem("user_infor", JSON.stringify(res))
       localStorage.setItem("access_token", res.jwt_token)
       window.location.href = '/'
-    } else if (error.value?.data.data.includes('otp')) {
-      emailOtp.value = email
-      flag.value = 2 
-      storeToast.add({
-        message: "Vui lòng kiểm tra email của bạn",
-        toastStatus: "success",
-      });
-    } else {
+    }  else {
       storeToast.add({
         message: "Sai tài khoản hoặc mật khẩu",
         toastStatus: "error",
